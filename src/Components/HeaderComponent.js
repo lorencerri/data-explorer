@@ -22,13 +22,9 @@ export const HeaderComponent = () => (
 		<StyledIcon name='compass' />
 		<StyledHeaderContent>
 			Data Explorer
-			<Header.Subheader>
-				<StyledDropdown
-					inline
-					options={options}
-					defaultValue={options[0].value}
-				/>
-			</Header.Subheader>
+			<StyledHeaderSubheader>
+				<a href='https://twitter.com/lorencerri'>@lorencerri</a>
+			</StyledHeaderSubheader>
 		</StyledHeaderContent>
 	</Header>
 );
@@ -41,6 +37,6 @@ const StyledHeaderContent = styled(Header.Content)`
 	color: #eeeeee;
 `;
 
-const StyledDropdown = styled(Dropdown)`
-	color: #eeeeee !important;
+const StyledHeaderSubheader = styled(Header.Subheader)`
+	color: #1da1f2 !important;
 `;
