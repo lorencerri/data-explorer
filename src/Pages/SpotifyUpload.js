@@ -12,8 +12,17 @@ import {
 } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 
+import { SpotifyData } from '../Processors/Spotify';
+
 export const SpotifyUpload = () => {
-	const { getRootProps, getInputProps } = useDropzone();
+	const SpotifyDataContainer = SpotifyData.useContainer();
+
+	const onDrop = file => SpotifyDataContainer.upload(file);
+	const { getRootProps, getInputProps } = useDropzone({
+		onDrop,
+		accept: '.zip',
+		maxFiles: 1,
+	});
 
 	return (
 		<>

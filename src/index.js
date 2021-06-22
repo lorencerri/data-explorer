@@ -8,11 +8,18 @@ import App from './App';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 
+import { SpotifyData } from './Processors/Spotify';
+import { DiscordData } from './Processors/Discord';
+
 const history = createBrowserHistory();
 
 ReactDOM.render(
 	<Router history={history}>
-		<App />
+		<SpotifyData.Provider>
+			<DiscordData.Provider>
+				<App />
+			</DiscordData.Provider>
+		</SpotifyData.Provider>
 	</Router>,
 	document.getElementById('root')
 );
