@@ -1,21 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Dropdown, Header, Icon } from 'semantic-ui-react';
-
-const options = [
-	{
-		key: 'discord',
-		text: 'Discord',
-		value: 'discord',
-		content: 'Discord',
-	},
-	{
-		key: 'spotify',
-		text: 'Spotify',
-		value: 'spotify',
-		content: 'Spotify',
-	},
-];
+import { Header, Icon } from 'semantic-ui-react';
 
 export const HeaderComponent = () => (
 	<Header as='h1'>

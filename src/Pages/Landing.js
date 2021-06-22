@@ -1,14 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TextLoop from 'react-text-loop';
-import {
-	Card,
-	Button,
-	Icon,
-	Segment,
-	Placeholder,
-	Header,
-} from 'semantic-ui-react';
+import { Card, Button, Icon } from 'semantic-ui-react';
 
 const handleColorType = brand => {
 	switch (brand) {
@@ -37,7 +30,7 @@ export const Landing = () => (
 			<StyledCard>
 				<Card.Content>
 					<CardHeader brand='spotify' content='Spotify' />
-					<CardDescription content='Explore your listening history through top tracks, first listens, unique artists, total listening time and more.' />
+					<CardDescription content='Explore your listening history through top tracks, first listens, unique artists, device filters, and more.' />
 					<CardButton animated>
 						<Button.Content visible>Next</Button.Content>
 						<Button.Content hidden>
