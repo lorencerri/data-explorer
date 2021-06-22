@@ -77,6 +77,7 @@ const BrandColor = styled.span`
 const CardHeader = styled(Card.Header)`
 	color: ${({ brand }) => handleColorType(brand)} !important;
 	text-align: center;
+	margin-top: 0px !important;
 `;
 
 const CardDescription = styled(Card.Description)`
