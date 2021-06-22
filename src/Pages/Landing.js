@@ -61,7 +61,7 @@ export const Landing = () => (
 );
 
 const TextHeader = styled.h1`
-	margin-top: max(100px, 30vh);
+	margin-top: 100px;
 	margin-bottom: 25px;
 	text-align: center;
 	color: #eeeeee;
