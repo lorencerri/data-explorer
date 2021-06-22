@@ -187,5 +187,6 @@ const StyledCard = styled(Card)`
 	box-shadow: none !important;
 	background-color: #23272a !important;
 	margin-top: 25px !important;
-	width: max(40%, 300px) !important;
+	width: 650px !important;
+	min-width: max(40%, 300px) !important;
 `;

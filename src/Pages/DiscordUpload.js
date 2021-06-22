@@ -12,8 +12,17 @@ import {
 } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 
+import { DiscordData } from '../Processors/Discord';
+
 export const DiscordUpload = () => {
-	const { getRootProps, getInputProps } = useDropzone();
+	const DiscordDataContainer = DiscordData.useContainer();
+
+	const onDrop = file => DiscordDataContainer.upload(file);
+	const { getRootProps, getInputProps } = useDropzone({
+		onDrop,
+		accept: '.zip',
+		maxFiles: 1,
+	});
 
 	return (
 		<>
@@ -124,5 +133,6 @@ const StyledCard = styled(Card)`
 	box-shadow: none !important;
 	background-color: #23272a !important;
 	margin-top: 25px !important;
-	width: max(40%, 300px) !important;
+	width: 650px !important;
+	min-width: max(40%, 300px) !important;
 `;
