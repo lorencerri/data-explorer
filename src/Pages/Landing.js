@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import TextLoop from 'react-text-loop';
+import { Link } from 'react-router-dom';
 import { Card, Button, Icon } from 'semantic-ui-react';
 
 const handleColorType = brand => {
@@ -31,19 +32,21 @@ export const Landing = () => (
 				<Card.Content>
 					<CardHeader brand='spotify' content='Spotify' />
 					<CardDescription content='Explore your listening history through top tracks, first listens, unique artists, device filters, and more.' />
-					<CardButton animated>
-						<Button.Content visible>Next</Button.Content>
-						<Button.Content hidden>
-							<Icon name='arrow right' />
-						</Button.Content>
-					</CardButton>
+					<Link to='/spotify'>
+						<CardButton animated>
+							<Button.Content visible>Next</Button.Content>
+							<Button.Content hidden>
+								<Icon name='arrow right' />
+							</Button.Content>
+						</CardButton>
+					</Link>
 				</Card.Content>
 			</StyledCard>
 			<StyledCard>
 				<Card.Content>
 					<CardHeader brand='discord' content='Discord' />
 					<CardDescription content="Explore your past activity on Discord, including statistics on various actions plus who you've talked to, and where." />
-					<CardButton animated>
+					<CardButton animated href='/discord'>
 						<Button.Content visible>Next</Button.Content>
 						<Button.Content hidden>
 							<Icon name='arrow right' />
