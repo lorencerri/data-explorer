@@ -32,7 +32,7 @@ export const Landing = () => (
 				<Card.Content>
 					<CardHeader brand='spotify' content='Spotify' />
 					<CardDescription content='Explore your listening history through top tracks, first listens, unique artists, device filters, and more.' />
-					<Link to='/spotify'>
+					<Link to='/spotify/upload'>
 						<CardButton animated>
 							<Button.Content visible>Next</Button.Content>
 							<Button.Content hidden>
@@ -46,7 +46,7 @@ export const Landing = () => (
 				<Card.Content>
 					<CardHeader brand='discord' content='Discord' />
 					<CardDescription content="Explore your past activity on Discord, including statistics on various actions plus who you've talked to, and where." />
-					<CardButton animated href='/discord'>
+					<CardButton animated href='/discord/upload'>
 						<Button.Content visible>Next</Button.Content>
 						<Button.Content hidden>
 							<Icon name='arrow right' />

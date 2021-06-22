@@ -8,13 +8,12 @@ import {
 	Header,
 	Divider,
 	Icon,
-	Button,
 	Segment,
 } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 
-export const Spotify = () => {
-	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+export const SpotifyUpload = () => {
+	const { getRootProps, getInputProps } = useDropzone();
 
 	return (
 		<>
