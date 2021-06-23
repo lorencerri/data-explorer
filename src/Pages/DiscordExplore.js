@@ -23,6 +23,7 @@ export const DiscordExplore = () => {
 			payments: [],
 			user_activity_application_statistics: [],
 		},
+		messagesIndex: {},
 	});
 
 	useEffect(() => {
@@ -34,6 +35,9 @@ export const DiscordExplore = () => {
 			setData({
 				user: JSON.parse(
 					await DiscordDataContainer.readFile('account/user.json')
+				),
+				messagesIndex: JSON.parse(
+					await DiscordDataContainer.readFile('messages/index.json')
 				),
 			});
 		};
@@ -277,6 +281,25 @@ export const DiscordExplore = () => {
 								</List.Item>
 							</StyledList>
 							<b>messages/</b>
+							<StyledList bulleted>
+								<List.Item>
+									You've sent private messages to{' '}
+									<b>
+										{
+											Object.values(
+												data.messagesIndex
+											).filter(
+												m =>
+													m &&
+													m.startsWith(
+														'Direct Message'
+													)
+											).length
+										}
+									</b>{' '}
+									unqiue users.
+								</List.Item>
+							</StyledList>
 						</CardDescription>
 					</Card.Content>
 				</StyledCard>
