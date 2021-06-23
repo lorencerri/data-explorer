@@ -21,6 +21,7 @@ const useDiscordData = () => {
 				`Error: ${message}. Please ensure you're uploading the correct .zip file and try again.`,
 				{
 					appearance: 'error',
+					autoDismiss: true,
 				}
 			);
 		};
