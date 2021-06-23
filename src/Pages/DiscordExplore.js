@@ -26,6 +26,7 @@ export const DiscordExplore = () => {
 			user_activity_application_statistics: [],
 		},
 		messagesIndex: {},
+		activity: {},
 	});
 
 	useEffect(() => {
@@ -280,22 +281,25 @@ export const DiscordExplore = () => {
 							<b>messages/</b>
 							<StyledList bulleted>
 								<List.Item>
-									You've sent private messages to{' '}
-									<b>
-										{
-											Object.values(
-												data.messagesIndex
-											).filter(
-												m =>
-													m &&
-													m.startsWith(
-														'Direct Message'
-													)
-											).length
-										}
-									</b>{' '}
-									unqiue users.
+									You've sent messages in{' '}
+									<b>{data.channelCount}</b> unqiue channels.
 								</List.Item>
+								<List.Item>
+									You've sent messages to{' '}
+									<b>{data.dmChannelCount}</b> unqiue users.
+								</List.Item>
+								<List.Item>
+									You've sent <b>{data.wordsCount}</b> words
+									or <b>{data.characterCount}</b> characters.
+								</List.Item>
+							</StyledList>
+							<b>activity.json</b>
+							<StyledList bulleted>
+								{Object.keys(data.activity).map(key => (
+									<List.Item>
+										{key}: <b>{data.activity[key]}</b>
+									</List.Item>
+								))}
 							</StyledList>
 						</CardDescription>
 					</Card.Content>

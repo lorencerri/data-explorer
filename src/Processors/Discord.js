@@ -166,11 +166,15 @@ const useDiscordData = () => {
 		parsed.channelCount = parsed.channels.filter(c => !c.isDM).length;
 		parsed.dmChannelCount = parsed.channels.length - parsed.channelCount;
 		parsed.characterCount = parsed.channels
-			.map(c => c.messages)
+			.map(c => c.parsedMessages)
 			.flat()
-			.filter(m => m)
 			.map(m => m.length)
 			.reduce((prev, cur) => prev + cur, 0);
+
+		parsed.wordsCount = parsed.channels
+			.map(c => c.parsedMessages)
+			.flat()
+			.reduce((prev, cur) => prev + cur.words.length, 0);
 
 		setLoadingMessage('Loading servers/index.json...');
 		parsed.guildsIndex = JSON.parse(await readFile('servers/index.json'));
