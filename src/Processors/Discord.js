@@ -209,13 +209,14 @@ const useDiscordData = () => {
 		parsed.guildsIndex = JSON.parse(await readFile('servers/index.json'));
 		if (!parsed.guildsIndex) return err('servers/index.json not found');
 		parsed.guildCount = Object.keys(parsed.guildsIndex).length;
-
+		if (!parsed.guildCount) return err('Unable to count guilds ');
 		const activityFile = files.find(file =>
 			/activity\/analytics\/events-[0-9]{4}-[0-9]{5}-of-[0-9]{5}\.json/.test(
 				file.name
 			)
 		);
 
+		if (!activityFile) return err('Unable to find activity file ');
 		if (!activityFile.name)
 			return err('Unable to find activity index file path');
 		setLoadingMessage(`Loading ${activityFile.name}`);
