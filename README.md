@@ -1,4 +1,4 @@
-## Data Explorer
+## [Data Explorer](https://data.plexidev.org)
 
 I originally made this to get the sum of the duration_connected property, although it turns out it's only been tracking the event since June of last year, which was disappointing. Feel free to try it out, although there's not much to it since I was just trying to get a single property.
 
