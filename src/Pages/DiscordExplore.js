@@ -295,11 +295,16 @@ export const DiscordExplore = () => {
 							</StyledList>
 							<b>activity.json</b>
 							<StyledList bulleted>
-								{Object.keys(data.activity).map(key => (
-									<List.Item>
-										{key}: <b>{data.activity[key]}</b>
-									</List.Item>
-								))}
+								{Object.keys(data.activity)
+									.sort(
+										(a, b) =>
+											data.activity[b] - data.activity[a]
+									)
+									.map(key => (
+										<List.Item>
+											{key}: <b>{data.activity[key]}</b>
+										</List.Item>
+									))}
 							</StyledList>
 						</CardDescription>
 					</Card.Content>
