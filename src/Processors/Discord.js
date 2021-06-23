@@ -15,13 +15,15 @@ const useDiscordData = () => {
 	const unzip = async U8 => {
 		const files = [];
 
-		const err = message =>
+		const err = message => {
+			setLoadingMessage(false);
 			addToast(
 				`Error: ${message}. Please ensure you're uploading the correct .zip file and try again.`,
 				{
 					appearance: 'error',
 				}
 			);
+		};
 
 		const getFile = name => files.find(file => file.name === name);
 		const readFile = path =>
