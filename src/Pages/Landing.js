@@ -57,7 +57,15 @@ export const Landing = () => (
 		</StyledCardGroup>
 		<ComingSoonCard centered>
 			<ComingSoonCardContent>
-				More sites coming soon...
+				<a
+					href='https://github.com/lorencerri/data-explorer'
+					target='_blank'
+					rel='noreferrer'
+				>
+					<Button>
+						<Icon name='github' /> Available on GitHub
+					</Button>
+				</a>
 			</ComingSoonCardContent>
 		</ComingSoonCard>
 	</>
