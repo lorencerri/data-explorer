@@ -103,7 +103,8 @@ const useDiscordData = () => {
 				if (!file) return res(null);
 				const fileContent = [];
 				const decoder = new DecodeUTF8();
-				file.ondata = (_err, dat, final) => {
+				file.ondata = (err, dat, final) => {
+					if (err) err(`Reading ${path} failed.`);
 					decoder.push(dat, final);
 				};
 				decoder.ondata = (str, final) => {
