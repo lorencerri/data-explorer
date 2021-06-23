@@ -9,6 +9,8 @@ import {
 	Divider,
 	Icon,
 	Segment,
+	Dimmer,
+	Loader,
 } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 
@@ -85,12 +87,18 @@ export const DiscordUpload = () => {
 								placeholder
 								{...getRootProps({ className: 'dropzone' })}
 							>
-								<Header icon>
-									<input {...getInputProps()} />
-									<Icon name='folder' />
-									Click or drag <b>package.zip</b> here for
-									processing
-								</Header>
+								{DiscordDataContainer.loading ? (
+									<Dimmer active>
+										<Loader content='Processing...' />
+									</Dimmer>
+								) : (
+									<Header icon>
+										<input {...getInputProps()} />
+										<Icon name='folder' />
+										Click or drag <b>package.zip</b> here
+										for processing
+									</Header>
+								)}
 							</StyledSegment>
 						</CardDescription>
 					</Card.Content>

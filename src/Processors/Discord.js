@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createContainer } from 'unstated-next';
 import { useHistory } from 'react-router-dom';
 import { Unzip, AsyncUnzipInflate, DecodeUTF8 } from 'fflate';
@@ -9,11 +9,17 @@ const useDiscordData = () => {
 	const [loading, setLoading] = useState(false);
 	const [files, setFiles] = useState([]);
 
+	useEffect(() => {
+		if (files.length) {
+			setLoading(false);
+			history.push('/discord/explore');
+		}
+	}, [files, history]);
+
 	const getFile = name => files.find(file => file.name === name);
 
-	const readFile = path => {
-		console.log(`Readying ${path}`);
-		return new Promise(resolve => {
+	const readFile = path =>
+		new Promise(resolve => {
 			const file = getFile(path);
 			if (!file) return resolve(null);
 			const fileContent = [];
@@ -27,7 +33,6 @@ const useDiscordData = () => {
 			};
 			file.start();
 		});
-	};
 
 	const unzip = U8 => {
 		const unzipper = new Unzip();
@@ -40,7 +45,6 @@ const useDiscordData = () => {
 			unzipper.push(U8.subarray(i, i + 65536));
 		}
 		setFiles(unzippedFiles);
-		history.push('/discord/explore');
 	};
 
 	const upload = file => {
