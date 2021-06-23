@@ -11,6 +11,7 @@ import {
 	Segment,
 	Dimmer,
 	Loader,
+	Message,
 } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 
@@ -82,7 +83,12 @@ export const DiscordUpload = () => {
 								</Header.Subheader>
 								<Divider />
 							</Header>
-
+							{DiscordDataContainer.errorMessage && (
+								<Message negative>
+									<Message.Header>Error</Message.Header>
+									<p>{DiscordDataContainer.errorMessage}</p>
+								</Message>
+							)}
 							<StyledSegment
 								placeholder
 								{...getRootProps({ className: 'dropzone' })}
