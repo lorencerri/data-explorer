@@ -3,10 +3,9 @@ import { createContainer } from 'unstated-next';
 import { useHistory } from 'react-router-dom';
 import { Unzip, AsyncUnzipInflate, DecodeUTF8 } from 'fflate';
 
-const useDiscordData = (initialState = []) => {
+const useDiscordData = () => {
 	const history = useHistory();
 
-	const [state, setState] = useState(initialState);
 	const [loading, setLoading] = useState(false);
 	const [files, setFiles] = useState([]);
 
@@ -53,7 +52,12 @@ const useDiscordData = (initialState = []) => {
 		fr.readAsArrayBuffer(file[0]);
 	};
 
-	return { state, setState, upload, loading, files, readFile };
+	return {
+		upload,
+		loading,
+		files,
+		readFile,
+	};
 };
 
 export const DiscordData = createContainer(useDiscordData);
