@@ -216,7 +216,7 @@ const useDiscordData = () => {
 			)
 		);
 
-		setLoadingMessage(`Loading ${activityFile.name}`);
+		//  setLoadingMessage(`Loading ${activityFile.name}`);
 
 		parsed.activity = await readLineByLine(activityFile);
 
