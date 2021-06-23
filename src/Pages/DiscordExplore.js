@@ -308,6 +308,11 @@ export const DiscordExplore = () => {
 								</List.Item>
 							</StyledList>
 							<b>activity/</b>
+							<i>
+								The following is only from when "Use data to
+								improve Discord" has been enabled in your
+								settings.
+							</i>
 							<StyledList bulleted>
 								<List.Item>
 									You've spent{' '}
