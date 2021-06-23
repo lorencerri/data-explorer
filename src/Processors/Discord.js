@@ -37,9 +37,9 @@ const useDiscordData = () => {
 					const eventName = snakeCase(event);
 					// eslint-disable-next-line no-constant-condition
 					while (true) {
-						const ind = str.indexOf(eventName);
-						if (ind === -1) break;
-						str = str.slice(ind + eventName.length);
+						const index = str.indexOf(eventName);
+						if (index === -1) break;
+						str = str.slice(index + eventName.length);
 						count[event] += 1;
 					}
 					prevChkEnd = str.slice(-eventName.length);
