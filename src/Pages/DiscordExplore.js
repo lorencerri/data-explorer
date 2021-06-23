@@ -295,7 +295,7 @@ export const DiscordExplore = () => {
 									or <b>{data.characterCount}</b> characters.
 								</List.Item>
 							</StyledList>
-							<b>activity.json</b>
+							<b>activity/</b>
 							<StyledList bulleted>
 								<List.Item>
 									You've spent{' '}
