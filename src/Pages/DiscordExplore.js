@@ -319,23 +319,79 @@ export const DiscordExplore = () => {
 									</b>
 									.
 								</List.Item>
-							</StyledList>
-							<b>Event Occurrences</b>
-							<StyledList bulleted>
-								{Object.keys(data.activity.eventCounts)
-									.sort(
-										(a, b) =>
-											data.activity.eventCounts[b] -
-											data.activity.eventCounts[a]
-									)
-									.map(key => (
-										<List.Item>
-											{key}:{' '}
-											<b>
-												{data.activity.eventCounts[key]}
-											</b>
-										</List.Item>
-									))}
+								<List.Item>
+									Discord has tracked{' '}
+									<b>
+										{Object.values(
+											data.activity.eventCounts
+										).reduce((cur, prev) => cur + prev, 0)}
+									</b>{' '}
+									of your actions.{' '}
+									<Modal
+										trigger={
+											<ModalText>View counts.</ModalText>
+										}
+										header='Events'
+										content={
+											<Grid centered>
+												<StyledTable>
+													<Table.Header>
+														<Table.Row>
+															<Table.HeaderCell>
+																Event
+															</Table.HeaderCell>
+															<Table.HeaderCell>
+																Count
+															</Table.HeaderCell>
+														</Table.Row>
+													</Table.Header>
+													<Table.Body>
+														{Object.keys(
+															data.activity
+																.eventCounts
+														)
+															.sort(
+																(a, b) =>
+																	data
+																		.activity
+																		.eventCounts[
+																		b
+																	] -
+																	data
+																		.activity
+																		.eventCounts[
+																		a
+																	]
+															)
+															.map(key => (
+																<Table.Row>
+																	<Table.Cell>
+																		{key}
+																	</Table.Cell>
+																	<Table.Cell>
+																		{
+																			data
+																				.activity
+																				.eventCounts[
+																				key
+																			]
+																		}
+																	</Table.Cell>
+																</Table.Row>
+															))}
+													</Table.Body>
+												</StyledTable>
+											</Grid>
+										}
+										actions={[
+											{
+												key: 'close',
+												content: 'Close',
+												positive: true,
+											},
+										]}
+									/>
+								</List.Item>
 							</StyledList>
 						</CardDescription>
 					</Card.Content>
@@ -348,6 +404,7 @@ export const DiscordExplore = () => {
 const StyledTable = styled(Table)`
 	width: 90% !important;
 	margin: 25px !important;
+	padding: 0 !important;
 `;
 
 const ModalText = styled.span`
