@@ -62,7 +62,7 @@ const useDiscordData = () => {
 
 					// Sums
 					if (line.duration_connected) {
-						dates.push(line.timestamp);
+						dates.push(new Date(JSON.parse(line.timestamp)));
 						sums.duration_connected += parseInt(
 							line.duration_connected
 						);

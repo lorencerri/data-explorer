@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import pms from 'pretty-ms';
-import dt from 'date-time';
 import {
 	Grid,
 	Card,
@@ -44,7 +43,6 @@ export const DiscordExplore = () => {
 
 		setData(DiscordDataContainer.data);
 	}, [DiscordDataContainer, addToast, history]);
-
 	console.log(data);
 
 	return (
@@ -310,9 +308,13 @@ export const DiscordExplore = () => {
 									connected to voice channels since{' '}
 									<b>
 										{
-											dt(
-												data.activity.earliestVCJoinDate
-											).split(' ')[0]
+											(
+												data.activity
+													.earliestVCJoinDate ||
+												new Date()
+											)
+												.toISOString()
+												.split('T')[0]
 										}
 									</b>
 									.
