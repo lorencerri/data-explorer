@@ -18,12 +18,19 @@ const useDiscordData = () => {
 		setErrorMessage(message);
 	};
 
+	const earliest = dates =>
+		dates.reduce(function (pre, cur) {
+			return Date.parse(pre) > Date.parse(cur) ? cur : pre;
+		});
+
 	const readLineByLine = file =>
 		new Promise(res => {
 			if (!file) res({}); // Check if valid file
 
 			// Set up incremental variables
-			const count = {};
+			const dates = [];
+			const eventCounts = {};
+			const sums = { duration_connected: 0 };
 
 			// Decode File
 			const decoder = new DecodeUTF8();
@@ -47,12 +54,26 @@ const useDiscordData = () => {
 				for (let i = 0; i < lines.length; i += 1) {
 					const line = JSON.parse(lines[i]);
 					// if (i === 0) console.log(line);
-					if (count[line.event_type] === undefined) {
-						count[line.event_type] = 1;
-					} else count[line.event_type] += 1;
+
+					// Count Event Occurrences
+					if (eventCounts[line.event_type] === undefined) {
+						eventCounts[line.event_type] = 1;
+					} else eventCounts[line.event_type] += 1;
+
+					// Sums
+					if (line.duration_connected) {
+						dates.push(line.timestamp);
+						sums.duration_connected += parseInt(
+							line.duration_connected
+						);
+					}
 				}
 				if (final) {
-					res(count);
+					res({
+						eventCounts,
+						sums,
+						earliestVCJoinDate: earliest(dates),
+					});
 				}
 			};
 			file.start();

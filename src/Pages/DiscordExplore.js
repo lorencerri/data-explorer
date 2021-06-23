@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
+import pms from 'pretty-ms';
+import dt from 'date-time';
 import {
 	Grid,
 	Card,
@@ -26,7 +28,7 @@ export const DiscordExplore = () => {
 			user_activity_application_statistics: [],
 		},
 		messagesIndex: {},
-		activity: {},
+		activity: { eventCounts: {}, sums: {} },
 	});
 
 	useEffect(() => {
@@ -39,10 +41,12 @@ export const DiscordExplore = () => {
 			});
 			history.push('/discord/upload');
 		}
-		console.log(DiscordDataContainer.data);
+
 		setData(DiscordDataContainer.data);
 	}, [DiscordDataContainer, addToast, history]);
+
 	console.log(data);
+
 	return (
 		<>
 			<Grid centered columns={1}>
@@ -295,14 +299,39 @@ export const DiscordExplore = () => {
 							</StyledList>
 							<b>activity.json</b>
 							<StyledList bulleted>
-								{Object.keys(data.activity)
+								<List.Item>
+									You've spent{' '}
+									<b>
+										{pms(
+											(data.activity.sums
+												.duration_connected || 0) * 1000
+										)}
+									</b>{' '}
+									connected to voice channels since{' '}
+									<b>
+										{
+											dt(
+												data.activity.earliestVCJoinDate
+											).split(' ')[0]
+										}
+									</b>
+									.
+								</List.Item>
+							</StyledList>
+							<b>Event Occurrences</b>
+							<StyledList bulleted>
+								{Object.keys(data.activity.eventCounts)
 									.sort(
 										(a, b) =>
-											data.activity[b] - data.activity[a]
+											data.activity.eventCounts[b] -
+											data.activity.eventCounts[a]
 									)
 									.map(key => (
 										<List.Item>
-											{key}: <b>{data.activity[key]}</b>
+											{key}:{' '}
+											<b>
+												{data.activity.eventCounts[key]}
+											</b>
 										</List.Item>
 									))}
 							</StyledList>
