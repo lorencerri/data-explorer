@@ -87,9 +87,13 @@ export const DiscordUpload = () => {
 								placeholder
 								{...getRootProps({ className: 'dropzone' })}
 							>
-								{DiscordDataContainer.loading ? (
+								{DiscordDataContainer.loadingMessage ? (
 									<Dimmer active>
-										<Loader content='Processing...' />
+										<Loader
+											content={
+												DiscordDataContainer.loadingMessage
+											}
+										/>
 									</Dimmer>
 								) : (
 									<Header icon>

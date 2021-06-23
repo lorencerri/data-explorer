@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 import {
 	Grid,
 	Card,
@@ -15,6 +16,7 @@ import { DiscordData } from '../Processors/Discord';
 
 export const DiscordExplore = () => {
 	const history = useHistory();
+	const { addToast } = useToasts();
 	const DiscordDataContainer = DiscordData.useContainer();
 	const [data, setData] = useState({
 		user: {
@@ -27,23 +29,18 @@ export const DiscordExplore = () => {
 	});
 
 	useEffect(() => {
-		if (!DiscordDataContainer.files.length) {
+		if (!DiscordDataContainer.isValid) {
 			history.push('/discord/upload');
 		}
-
-		const fetchData = async () => {
-			setData({
-				user: JSON.parse(
-					await DiscordDataContainer.readFile('account/user.json')
-				),
-				messagesIndex: JSON.parse(
-					await DiscordDataContainer.readFile('messages/index.json')
-				),
+		if (!DiscordDataContainer.data) {
+			addToast('Something went wrong, please try again!', {
+				appearance: 'error',
 			});
-		};
-
-		fetchData();
-	}, [DiscordDataContainer, history]);
+			history.push('/discord/upload');
+		}
+		console.log(DiscordDataContainer.data);
+		setData(DiscordDataContainer.data);
+	}, [DiscordDataContainer, addToast, history]);
 	console.log(data);
 	return (
 		<>

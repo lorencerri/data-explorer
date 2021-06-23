@@ -1,54 +1,68 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { useHistory } from 'react-router-dom';
 import { Unzip, AsyncUnzipInflate, DecodeUTF8 } from 'fflate';
+import { useToasts } from 'react-toast-notifications';
 
 const useDiscordData = () => {
 	const history = useHistory();
+	const { addToast } = useToasts();
 
-	const [loading, setLoading] = useState(false);
-	const [files, setFiles] = useState([]);
+	const [isValid, setIsValid] = useState(false);
+	const [loadingMessage, setLoadingMessage] = useState(false);
+	const [data, setData] = useState({ user: {}, messagesIndex: {} });
 
-	useEffect(() => {
-		if (files.length) {
-			setLoading(false);
-			history.push('/discord/explore');
-		}
-	}, [files, history]);
+	const unzip = async U8 => {
+		const files = [];
 
-	const getFile = name => files.find(file => file.name === name);
+		const err = message =>
+			addToast(
+				`Error: ${message}. Please ensure you're uploading the correct .zip file and try again.`,
+				{
+					appearance: 'error',
+				}
+			);
 
-	const readFile = path =>
-		new Promise(resolve => {
-			const file = getFile(path);
-			if (!file) return resolve(null);
-			const fileContent = [];
-			const decoder = new DecodeUTF8();
-			file.ondata = (_err, data, final) => {
-				decoder.push(data, final);
-			};
-			decoder.ondata = (str, final) => {
-				fileContent.push(str);
-				if (final) resolve(fileContent.join(''));
-			};
-			file.start();
-		});
+		const getFile = name => files.find(file => file.name === name);
+		const readFile = path =>
+			new Promise(resolve => {
+				setLoadingMessage(`Reading ${path}...`);
+				const file = getFile(path);
+				if (!file) return resolve(null);
+				const fileContent = [];
+				const decoder = new DecodeUTF8();
+				file.ondata = (_err, dat, final) => {
+					decoder.push(dat, final);
+				};
+				decoder.ondata = (str, final) => {
+					fileContent.push(str);
+					if (final) resolve(fileContent.join(''));
+				};
+				file.start();
+			});
 
-	const unzip = U8 => {
 		const unzipper = new Unzip();
-		const unzippedFiles = [];
 		unzipper.register(AsyncUnzipInflate);
-		unzipper.onfile = f => {
-			unzippedFiles.push(f);
-		};
+		unzipper.onfile = f => files.push(f);
+
 		for (let i = 0; i < U8.length; i += 65536) {
 			unzipper.push(U8.subarray(i, i + 65536));
 		}
-		setFiles(unzippedFiles);
+
+		const user = JSON.parse(await readFile('account/user.json'));
+		if (!user) return err('account/user.json not found');
+		const messagesIndex = JSON.parse(await readFile('messages/index.json'));
+		if (!messagesIndex) return err('messages/index.json not found');
+
+		setData({ messagesIndex, user });
+
+		setLoadingMessage(false);
+		setIsValid(true);
+		history.push('/discord/explore');
 	};
 
 	const upload = file => {
-		setLoading(true);
+		setLoadingMessage('Starting script...');
 		const fr = new FileReader();
 		fr.onloadend = () => {
 			unzip(new Uint8Array(fr.result));
@@ -58,9 +72,9 @@ const useDiscordData = () => {
 
 	return {
 		upload,
-		loading,
-		files,
-		readFile,
+		isValid,
+		data,
+		loadingMessage,
 	};
 };
 
