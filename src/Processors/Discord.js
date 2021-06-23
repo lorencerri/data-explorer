@@ -216,7 +216,9 @@ const useDiscordData = () => {
 			)
 		);
 
-		//  setLoadingMessage(`Loading ${activityFile.name}`);
+		if (!activityFile.name)
+			return err('Unable to find activity index file path');
+		setLoadingMessage(`Loading ${activityFile.name}`);
 
 		parsed.activity = await readLineByLine(activityFile);
 
