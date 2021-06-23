@@ -308,11 +308,15 @@ export const DiscordExplore = () => {
 								</List.Item>
 							</StyledList>
 							<b>activity/</b>
-							<i>
-								The following is only from when "Use data to
-								improve Discord" has been enabled in your
-								settings.
-							</i>
+							<p>
+								<i>
+									<DarkGreyText>
+										The following is from when "Use data to
+										improve Discord" was been enabled in
+										your settings.
+									</DarkGreyText>
+								</i>
+							</p>
 							<StyledList bulleted>
 								<List.Item>
 									You've spent{' '}
@@ -417,6 +421,10 @@ export const DiscordExplore = () => {
 		</>
 	);
 };
+
+const DarkGreyText = styled.span`
+	color: darkgrey;
+`;
 
 const StyledTable = styled(Table)`
 	width: 90% !important;
