@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { createContainer } from 'unstated-next';
 import { useHistory } from 'react-router-dom';
 import { Unzip, AsyncUnzipInflate, DecodeUTF8 } from 'fflate';
-import { snakeCase } from 'snake-case';
-import eventsData from './events.json';
 import { parseCSV } from './Helpers';
 
 const useDiscordData = () => {
@@ -20,29 +18,38 @@ const useDiscordData = () => {
 		setErrorMessage(message);
 	};
 
-	const readAnalyticsFile = file =>
+	const readLineByLine = file =>
 		new Promise(res => {
-			if (!file) res({});
+			if (!file) res({}); // Check if valid file
+
+			// Set up incremental variables
 			const count = {};
-			for (const eventName of eventsData.eventsEnabled)
-				count[eventName] = 0;
+
+			// Decode File
 			const decoder = new DecodeUTF8();
-			file.ondata = (_err, line, final) => {
-				decoder.push(line, final);
+
+			file.ondata = (_err, u8data, final) => {
+				decoder.push(u8data, final);
 			};
-			let prevChkEnd = '';
+
+			let prevEnd = '';
+
 			decoder.ondata = (str, final) => {
-				str = prevChkEnd + str;
-				for (const event of Object.keys(count)) {
-					const eventName = snakeCase(event);
-					// eslint-disable-next-line no-constant-condition
-					while (true) {
-						const index = str.indexOf(eventName);
-						if (index === -1) break;
-						str = str.slice(index + eventName.length);
-						count[event] += 1;
-					}
-					prevChkEnd = str.slice(-eventName.length);
+				const lines = str.split('\n');
+				if (prevEnd.length > 0) {
+					lines[0] = prevEnd + lines[0];
+					prevEnd = '';
+				}
+				if (!lines[lines.length - 1].endsWith('}')) {
+					prevEnd = lines[lines.length - 1];
+					lines.pop();
+				}
+				for (let i = 0; i < lines.length; i += 1) {
+					const line = JSON.parse(lines[i]);
+					// if (i === 0) console.log(line);
+					if (count[line.event_type] === undefined) {
+						count[line.event_type] = 1;
+					} else count[line.event_type] += 1;
 				}
 				if (final) {
 					res(count);
@@ -188,8 +195,9 @@ const useDiscordData = () => {
 		);
 
 		setLoadingMessage(`Loading ${activityFile.name}`);
-		parsed.activity = await readAnalyticsFile(activityFile);
-		console.log(parsed);
+
+		parsed.activity = await readLineByLine(activityFile);
+
 		setData(parsed);
 		setLoadingMessage(false);
 		setIsValid(true);
