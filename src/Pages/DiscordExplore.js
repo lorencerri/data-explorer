@@ -9,7 +9,6 @@ import {
 	List,
 	Modal,
 	Table,
-	Label,
 } from 'semantic-ui-react';
 
 import { DiscordData } from '../Processors/Discord';

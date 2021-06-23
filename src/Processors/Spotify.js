@@ -8,7 +8,7 @@ const useSpotifyData = (initialState = []) => {
 		console.log(file);
 	};
 
-	return { state, upload };
+	return { state, upload, setState };
 };
 
 export const SpotifyData = createContainer(useSpotifyData);
