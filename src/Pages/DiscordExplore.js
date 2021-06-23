@@ -191,7 +191,13 @@ export const DiscordExplore = () => {
 																</Table.Cell>
 																<Table.Cell>
 																	{
-																		payment.created_at
+																		new Date(
+																			payment.created_at
+																		)
+																			.toISOString()
+																			.split(
+																				'T'
+																			)[0]
 																	}
 																</Table.Cell>
 															</Table.Row>
@@ -256,7 +262,13 @@ export const DiscordExplore = () => {
 																</Table.Cell>
 																<Table.Cell>
 																	{
-																		application.last_played_at
+																		new Date(
+																			application.last_played_at
+																		)
+																			.toISOString()
+																			.split(
+																				'T'
+																			)[0]
 																	}
 																</Table.Cell>
 																<Table.Cell>
