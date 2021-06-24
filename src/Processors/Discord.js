@@ -19,9 +19,10 @@ const useDiscordData = () => {
 	};
 
 	const earliest = dates =>
-		dates.reduce(function (pre, cur) {
-			return Date.parse(pre) > Date.parse(cur) ? cur : pre;
-		});
+		dates.reduce(
+			(pre, cur) => (Date.parse(pre) > Date.parse(cur) ? cur : pre),
+			new Date()
+		);
 
 	const readLineByLine = file =>
 		new Promise(res => {
