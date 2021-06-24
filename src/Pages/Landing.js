@@ -62,14 +62,27 @@ export const Landing = () => (
 					target='_blank'
 					rel='noreferrer'
 				>
-					<Button>
-						<Icon name='github' /> Available on GitHub
-					</Button>
+					<GitHubButton animated>
+						<Button.Content visible>
+							<Icon name='github' /> Available on GitHub
+						</Button.Content>
+						<Button.Content hidden>
+							Feel free to <Icon name='star' /> me{' '}
+							<Icon name='smile outline' />
+						</Button.Content>
+					</GitHubButton>
 				</a>
 			</ComingSoonCardContent>
 		</ComingSoonCard>
 	</>
 );
+
+const GitHubButton = styled(Button)`
+	margin: 0 !important;
+	i {
+		margin: 0 !important;
+	}
+`;
 
 const TextHeader = styled.h1`
 	margin-top: 100px;
