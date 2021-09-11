@@ -28,7 +28,7 @@ export const DiscordExplore = () => {
 			user_activity_application_statistics: [],
 		},
 		messagesIndex: {},
-		activity: { eventCounts: {}, sums: {} },
+		activity: { eventCounts: {}, durationConnected: {} },
 	});
 
 	useEffect(() => {
@@ -342,9 +342,13 @@ export const DiscordExplore = () => {
 										You've spent{' '}
 										<b>
 											{pms(
-												(data.activity.sums
-													.duration_connected || 0) *
-													1000
+												(Object.values(
+													data.activity
+														.durationConnected
+												).reduce(
+													(prev, cur) => prev + cur,
+													0
+												) || 0) * 1000
 											)}
 										</b>{' '}
 										connected to voice channels since{' '}
@@ -360,6 +364,54 @@ export const DiscordExplore = () => {
 											}
 										</b>
 										.
+										<Table
+											compact
+											style={{
+												background: 'transparent',
+												color: 'grey',
+											}}
+										>
+											{Object.keys(
+												data.activity.durationConnected
+											)
+												.filter(
+													i =>
+														i !== 'undefined' &&
+														data.activity
+															.durationConnected[
+															i
+														] > 60
+												)
+												.sort(
+													(a, b) =>
+														data.activity
+															.durationConnected[
+															b
+														] -
+														data.activity
+															.durationConnected[
+															a
+														]
+												)
+												.map(i => (
+													<tr>
+														<td>
+															{data.guildsIndex[
+																i
+															] ||
+																'Deleted Server'}
+														</td>{' '}
+														<td>
+															{pms(
+																data.activity
+																	.durationConnected[
+																	i
+																] * 1000
+															)}
+														</td>
+													</tr>
+												))}
+										</Table>
 									</List.Item>
 									<List.Item>
 										Discord has tracked{' '}
@@ -491,4 +543,5 @@ const StyledCard = styled(Card)`
 	margin-top: 25px !important;
 	width: 650px !important;
 	min-width: max(40%, 300px) !important;
+	margin-bottom: 50px !important;
 `;

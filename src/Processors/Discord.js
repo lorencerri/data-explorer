@@ -31,7 +31,7 @@ const useDiscordData = () => {
 			// Set up incremental variables
 			const dates = [];
 			const eventCounts = {};
-			const sums = { duration_connected: 0 };
+			const durationConnected = {};
 
 			// Decode File
 			const decoder = new DecodeUTF8();
@@ -63,16 +63,22 @@ const useDiscordData = () => {
 
 					// Sums
 					if (line.duration_connected) {
+						console.log(line);
 						dates.push(new Date(JSON.parse(line.timestamp)));
-						sums.duration_connected += parseInt(
-							line.duration_connected
-						);
+						if (!durationConnected[line.guild_id])
+							durationConnected[line.guild_id] = parseInt(
+								line.duration_connected
+							);
+						else
+							durationConnected[line.guild_id] += parseInt(
+								line.duration_connected
+							);
 					}
 				}
 				if (final) {
 					res({
 						eventCounts,
-						sums,
+						durationConnected,
 						earliestVCJoinDate: earliest(dates),
 					});
 				}
