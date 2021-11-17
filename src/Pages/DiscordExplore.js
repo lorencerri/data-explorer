@@ -364,6 +364,32 @@ export const DiscordExplore = () => {
 											}
 										</b>
 										.
+										<List.Item>
+											&nbsp;That's an average of{' '}
+											<b>
+												{pms(
+													((Object.values(
+														data.activity
+															.durationConnected
+													).reduce(
+														(prev, cur) =>
+															prev + cur,
+														0
+													) || 0) *
+														1000) /
+														Math.round(
+															(Date.now() -
+																data.activity
+																	.earliestVCJoinDate) /
+																(1000 *
+																	3600 *
+																	24)
+														),
+													{ secondsDecimalDigits: 0 }
+												)}
+											</b>{' '}
+											per day!
+										</List.Item>
 										<Table
 											compact
 											style={{
