@@ -364,8 +364,10 @@ export const DiscordExplore = () => {
 											}
 										</b>
 										.
+									</List.Item>
+									{data.activity.earliestVCJoinDate && (
 										<List.Item>
-											&nbsp;That's an average of{' '}
+											That's an average of{' '}
 											<b>
 												{pms(
 													((Object.values(
@@ -385,60 +387,55 @@ export const DiscordExplore = () => {
 																	3600 *
 																	24)
 														),
-													{ secondsDecimalDigits: 0 }
+													{
+														secondsDecimalDigits: 0,
+													}
 												)}
 											</b>{' '}
 											per day!
 										</List.Item>
-										<Table
-											compact
-											style={{
-												background: 'transparent',
-												color: 'grey',
-											}}
-										>
-											{Object.keys(
-												data.activity.durationConnected
+									)}
+									<Table
+										compact
+										style={{
+											background: 'transparent',
+											color: 'grey',
+										}}
+									>
+										{Object.keys(
+											data.activity.durationConnected
+										)
+											.filter(
+												i =>
+													i !== 'undefined' &&
+													data.activity
+														.durationConnected[i] >
+														60
 											)
-												.filter(
-													i =>
-														i !== 'undefined' &&
-														data.activity
-															.durationConnected[
-															i
-														] > 60
-												)
-												.sort(
-													(a, b) =>
-														data.activity
-															.durationConnected[
-															b
-														] -
-														data.activity
-															.durationConnected[
-															a
-														]
-												)
-												.map(i => (
-													<tr>
-														<td>
-															{data.guildsIndex[
+											.sort(
+												(a, b) =>
+													data.activity
+														.durationConnected[b] -
+													data.activity
+														.durationConnected[a]
+											)
+											.map(i => (
+												<tr>
+													<td>
+														{data.guildsIndex[i] ||
+															'Deleted Server'}
+													</td>{' '}
+													<td>
+														{pms(
+															data.activity
+																.durationConnected[
 																i
-															] ||
-																'Deleted Server'}
-														</td>{' '}
-														<td>
-															{pms(
-																data.activity
-																	.durationConnected[
-																	i
-																] * 1000
-															)}
-														</td>
-													</tr>
-												))}
-										</Table>
-									</List.Item>
+															] * 1000
+														)}
+													</td>
+												</tr>
+											))}
+									</Table>
 									<List.Item>
 										Discord has tracked{' '}
 										<b>
